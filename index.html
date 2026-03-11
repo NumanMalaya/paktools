@@ -4,19 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PakTools - Professional Online Tools</title>
-<meta name="description" content="PakTools provides professional daily tools like BMI calculator, CGPA calculator, Currency converter, Loan/EMI calculator, Unit converter, and more. Fast, secure, and easy to use.">
-<meta name="keywords" content="online tools, BMI calculator, CGPA calculator, currency converter, loan calculator, EMI calculator, unit converter">
+<meta name="description" content="PakTools provides professional daily tools like BMI calculator, CGPA calculator, Currency converter, Loan/EMI calculator, Unit converter, QR Code Generator & Scanner and more. Fast, secure, and easy to use.">
+<meta name="keywords" content="online tools, BMI calculator, CGPA calculator, currency converter, loan calculator, EMI calculator, unit converter, QR code generator, QR code scanner">
 
 <link rel="icon" href="data:,">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/html5-qrcode"></script> <!-- For QR Scanner -->
 <link rel="stylesheet" href="res/index.css">
 </head>
 <body>
 
 <header>
-<h1>PakTools</h1>
-<div class="toggle-btn" onclick="toggleDark()">🌙 Dark</div>
+  <h1 onclick="window.open('index.html')">PakTools</h1>
+  <div class="toggle-btn" onclick="toggleDark()">🌙 Dark</div>
 </header>
 
 <div class="main-content">
@@ -32,10 +33,14 @@
   <div class="tools-grid">
     <div class="tool-card" onclick="openTool('bmi')">BMI Calculator</div>
     <div class="tool-card" onclick="openTool('cgpa')">CGPA Calculator</div>
-    <div class="tool-card" onclick="openTool('currency')">Currency Converter</div>
     <div class="tool-card" onclick="openTool('unit')">Unit Converter</div>
     <div class="tool-card" onclick="openTool('loan')">Loan / EMI Calculator</div>
-    <div class="tool-card" onclick="window.open('gpsStamp.html','_blank')">GPS Stamp</div>  </div>
+    <div class="tool-card" onclick="openTool('qr')">QR Code Generator</div>
+    <div class="tool-card" onclick="window.open('gpsStamp.html','_blank')">GPS Stamp</div>  
+    <div class="tool-card" onclick="window.open('bdaPdf.html','_blank')">BDA PDF</div>  
+    <div class="tool-card" onclick="window.open('slwmcPdf.html','_blank')">SLWMC PDF</div>  
+    <div class="tool-card" onclick="window.open('a.html','_blank')">Yomo LoLo PoPo</div>  
+  </div>
 </div>
 
 <footer>
@@ -50,13 +55,13 @@
 </footer>
 
 <div class="modal" id="modal" aria-modal="true" role="dialog">
-<div class="modal-content">
-<span class="close" onclick="closeModal()">✖</span>
-<div id="toolContent"></div>
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">✖</span>
+    <div id="toolContent"></div>
+  </div>
+  
 </div>
-</div>
-
+<script src="https://unpkg.com/html5-qrcode"></script>
 <script src="res/index.js"></script>
 </body>
-
 </html>

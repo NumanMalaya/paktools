@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SLWMC PDF - PakTools</title>
+
+<link rel="icon" href="data:,">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="res/index.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+/* ---------- Scrollbar Styling ---------- */
+.form-container::-webkit-scrollbar,
+.preview-container::-webkit-scrollbar { width: 1px; }
+.form-container::-webkit-scrollbar-thumb,
+.preview-container::-webkit-scrollbar-thumb { background-color: #000; border-radius: 3px; }
+.form-container::-webkit-scrollbar-track,
+.preview-container::-webkit-scrollbar-track { background: #f0f0f0; }
+.form-container,
+.preview-container { scrollbar-width: thin; scrollbar-color: #000 #f0f0f0; }
+
+body { text-align:center; font-family: 'Poppins', sans-serif; margin:0; padding:0; }
+
+/* ---------- Layout ---------- */
+.main-content{ display:grid; grid-template-columns:420px 1fr; gap:20px; padding:15px 0; max-width:1400px; margin:0 auto; align-items:start; }
+.form-container { position: sticky; top: 10px; max-height: 80vh; overflow-y: auto; padding-right: 10px; }
+.preview-container{ max-height:80vh; overflow-y:auto; padding-right:10px; }
+
+/* ---------- Category Box ---------- */
+.category-box{ width:100%; margin:12px 0; border-radius:8px; padding:15px; position:relative; border:2px solid #ccc; }
+.category-box input{ padding:8px; width:70%; }
+.drop-zone{ margin-top:12px; padding:20px; border:2px dashed #aaa; border-radius:8px; cursor:pointer; position:relative; }
+.drop-zone.dragover{ border-color:#004080; }
+.drop-zone input{ position:absolute; inset:0; opacity:0; }
+.file-count{ margin-top:6px; font-size:13px; color:#007bff; font-weight:bold; }
+.delete-category{ position:absolute; top:8px; right:8px; padding: 5px 10px; background:none; border:none; font-size:20px; cursor:pointer; border-radius:8px; }
+
+/* ---------- Slide ---------- */
+.slide{
+width:925px; height:525px; margin:30px auto; position:relative; padding:20px 30px; box-sizing:border-box; color:#000;
+background:linear-gradient(to bottom,#6fd3ea,#0f6fa3); box-shadow:0 4px 10px rgba(0,0,0,.2);
+display:flex; flex-direction:column; overflow:hidden;
+}
+
+/* ---------- Slide Elements ---------- */
+.logos{ display:flex; justify-content:space-between; align-items:center; position:relative; padding:5px; }
+.logos img.small{height:80px;} .logos img.center{position:absolute; left:50%; transform:translateX(-50%); height:50px;}
+
+.slide-category{ font-size:30px; font-weight:900; color:#000; text-align:center; margin-top:-15px; margin-bottom:10px;}
+.category-underline{ width:50%; height:7px; margin:auto; display:flex; }
+.category-underline .green{ width:50%; background:#0a9b2a; }
+.category-underline .red{ width:50%; background:#ff0000; }
+
+.images{ flex:1; display:flex; justify-content:center; align-items:center; gap:10px; }
+.image-frame{ width:320px; height:325px; display:flex; justify-content:center; align-items:center; overflow:hidden; }
+.image-frame img{ width:100%; height:100%; object-fit:cover; image-rendering: auto; }
+
+/* Intro Slides */
+.intro-slide{ width:925px; height:525px; margin:20px auto; position:relative; background:linear-gradient(to bottom,#6fd3ea,#0f6fa3); color:#fff; overflow:hidden; }
+.intro-logos{ display:flex; justify-content:space-between; padding:20px 40px; }
+.intro-logos img{ height:150px; }
+.intro-center{ text-align:center; margin-top:-100px; }
+.intro-center img{ height:300px; }
+.intro-date{ position:absolute; right:100px; top:300px; color:#fff; font-size:26px; font-weight:700; }
+.intro-title{ position:absolute; bottom:20px; width:100%; text-align:center; font-size:34px; font-weight:900; }
+
+/* District Slide */
+.district-row{ position:absolute; top:280px; width:100%; display:flex; justify-content: space-around; padding: 0px 20px; color:#fff; font-size:36px; font-weight:900; }
+.vertical-line{ position:absolute; top:150px; left:50%; width:6px; height:260px; background:#ff0000; transform:translateX(-50%); }
+.bottom-center-logo{ position:absolute; bottom:40px; left:50%; transform:translateX(-50%); } 
+.bottom-center-logo img{height:50px;}
+
+/* ---------- Loader ---------- */
+#progressOverlay{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:9999; align-items:center; justify-content:center; flex-direction:column; }
+.ring{ position:absolute; inset:0; border:8px solid transparent; border-radius:50%; animation:spin linear infinite; }
+.r1{border-top-color:#00f0ff;animation-duration:1.2s;}
+.r2{border-top-color:#ff00ff;animation-duration:1.8s;}
+.r3{border-top-color:#00ff88;animation-duration:2.4s;}
+@keyframes spin{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
+#progressText{ margin-top:25px; color:#0ff; font-size:20px; font-weight:bold; text-shadow:0 0 10px #0ff; }
+
+/* ---------- Mobile ---------- */
+@media (max-width:1000px){ .main-content{ grid-template-columns:1fr; max-width:95%; } }
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>PakTools</h1>
+<div class="toggle-btn" onclick="toggleDark()">🌙 Dark</div>
+</header>
+
+<div class="main-content">
+
+<!-- LEFT SIDE -->
+<div class="form-container">
+<h1>SLWMC Slides</h1>
+
+<input type="date" id="introDate" oninput="renderSlides()">
+<input type="text" id="districtName" placeholder="District Name" value="Pakpattan" oninput="renderSlides()">
+<select id="layoutMode" onchange="renderSlides()">
+  <option value="one">1 Image per Slide</option>
+  <option value="two">2 Images per Slide</option>
+  <option value="three">3 Images per Slide</option>
+</select>
+
+<button onclick="addCategory()">+ Add Category</button>
+<button onclick="downloadPDF()">Download PDF</button>
+<div id="categoriesContainer"></div>
+</div>
+
+<!-- RIGHT SIDE -->
+<div class="preview-container" id="slidesContainer"></div>
+
+</div>
+
+<footer>
+© 2026 PakTools.site |
+<a href="index.html">Home</a> |
+<a href="contact.html">Contact</a> |
+<a href="about.html">About</a> |
+<a href="privacy-policy.html">Privacy Policy</a> |
+<a href="disclaimer.html">Disclaimer</a> |
+<span>Designed & Developed by
+<button onclick="window.open('https://numanmalaya.github.io/NumanMalaya/', '_blank')" class="inline-btn footer-btn">Numan Malaya</button>
+</span>
+</footer>
+
+<div id="progressOverlay">
+<div style="position:relative;width:120px;height:120px;">
+<div class="ring r1"></div>
+<div class="ring r2"></div>
+<div class="ring r3"></div>
+</div>
+<div id="progressText">
+<div id="percent">0%</div>
+<div id="count">0 / 0 slides</div>
+</div>
+</div>
+
+
+<script src="res/index.js"></script>
+<script>
+let categories = [];
+let categoryId = 0;
+
+/* ---------- Set Default Date ---------- */
+window.addEventListener('DOMContentLoaded', () => {
+    const dateInput = document.getElementById("introDate");
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = today.getMonth() + 1;
+    let dd = today.getDate();
+    if(mm < 10) mm = "0" + mm;
+    if(dd < 10) dd = "0" + dd;
+    dateInput.value = `${yyyy}-${mm}-${dd}`;
+});
+
+/* Logos */
+
+const leftLogo="res/logos/wmcPdf/iconLeft.png";
+const centerLogo="res/logos/wmcPdf/iconCenter.png";
+const rightLogo="res/logos/wmcPdf/iconRight.png";
+const leftLogoIntro="res/logos/wmcPdf/iconLeft.png";
+const centerLogoIntro="res/logos/wmcPdf/iconCenter-introPage.png";
+const rightLogoIntro="res/logos/wmcPdf/iconRight-introPage.png";
+
+/* ---------- Add Category ---------- */
+function addCategory(){
+  const id = categoryId++;
+  categories.push({id,name:"Category "+(categories.length+1),images:[]});
+  const box = document.createElement("div");
+  box.className="category-box";
+  box.id="cat-"+id;
+  box.innerHTML=`
+    <button class="delete-category" onclick="deleteCategory(${id})">🗑</button>
+    <h3>Category</h3>
+    <input value="Category ${categories.length}" oninput="updateName(${id}, this.value)">
+    <div class="drop-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, ${id})">
+      Click / Drop Images
+      <input type="file" multiple accept="image/*" onchange="updateImages(${id}, this.files)">
+    </div>
+    <div class="file-count" id="count-${id}">No files</div>
+  `;
+  document.getElementById("categoriesContainer").prepend(box);
+}
+
+function deleteCategory(id){ categories=categories.filter(c=>c.id!==id); document.getElementById("cat-"+id)?.remove(); renderSlides(); }
+function updateName(id,val){ const c=categories.find(x=>x.id===id); if(c)c.name=val; renderSlides(); }
+function updateImages(id,files){ const c=categories.find(x=>x.id===id); c.images=Array.from(files).map(f=>URL.createObjectURL(f)); document.getElementById("count-"+id).innerText=c.images.length+" image(s)"; renderSlides(); }
+
+/* Drag & Drop */
+function handleDragOver(e){ e.preventDefault(); e.currentTarget.classList.add("dragover"); }
+function handleDragLeave(e){ e.preventDefault(); e.currentTarget.classList.remove("dragover"); }
+function handleDrop(e,id){ e.preventDefault(); e.currentTarget.classList.remove("dragover"); updateImages(id,e.dataTransfer.files); }
+
+/* ---------- Render Slides ---------- */
+function renderSlides(){
+  const container=document.getElementById("slidesContainer");
+  container.innerHTML="";
+
+  const layout=document.getElementById("layoutMode").value;
+  const step = layout==="one"?1:layout==="two"?2:3;
+
+  // Intro Slide
+  const intro=document.createElement("div");
+  intro.className="intro-slide";
+  intro.innerHTML=`
+    <div class="intro-logos"><img src="${leftLogoIntro}"><img src="${rightLogoIntro}"></div>
+    <div class="intro-center"><img src="${centerLogoIntro}"></div>
+    <div class="intro-date">${new Date(document.getElementById("introDate").value).toLocaleDateString('en-GB',{day:"2-digit",month:"short",year:"numeric"}).toUpperCase()}</div>
+    <div class="intro-title">SAHIWAL WASTE MANAGEMENT COMPANY<br>SAHIWAL DIVISION (SLWMC)</div>
+  `;
+  container.appendChild(intro);
+
+  // District Slide
+  const district = document.getElementById("districtName").value || "Pakpattan";
+  const distSlide=document.createElement("div");
+  distSlide.className="intro-slide";
+  distSlide.innerHTML=`
+    <div class="intro-logos"><img src="${leftLogoIntro}"><img src="${rightLogoIntro}"></div>
+    <div class="vertical-line"></div>
+    <div class="district-row"><div>DISTRICTS</div><div>${district.toUpperCase()}</div></div>
+    <div class="bottom-center-logo"><img src="${centerLogo}"></div>
+  `;
+  container.appendChild(distSlide);
+
+  // Category Slides
+  categories.forEach(cat=>{
+    for(let i=0;i<cat.images.length;i+=step){
+      const slide=document.createElement("div");
+      slide.className="slide";
+      slide.innerHTML=`
+        <div class="logos">
+          <img src="${leftLogo}" class="small">
+          <img src="${centerLogo}" class="center">
+          <img src="${rightLogo}" class="small">
+        </div>
+        <div class="slide-category">${cat.name}</div>
+        <div class="category-underline"><div class="green"></div><div class="red"></div></div>
+        <div class="images">
+          ${cat.images.slice(i,i+step).map(img=>`<div class="image-frame"><img src="${img}"></div>`).join("")}
+        </div>
+      `;
+      container.appendChild(slide);
+    }
+  });
+
+  // Ending Slide
+  const ending=document.createElement("div");
+  ending.className="intro-slide";
+  ending.innerHTML=`
+    <div class="intro-logos"><img src="${leftLogoIntro}"><img src="${rightLogoIntro}"></div>
+    <div class="intro-center"><img src="${centerLogoIntro}"></div>
+    <div class="intro-title">THANK YOU</div>
+  `;
+  container.appendChild(ending);
+}
+
+/* ---------- PDF Export ---------- */
+async function downloadPDF(){
+  const { jsPDF }=window.jspdf;
+  const slides=document.querySelectorAll(".intro-slide,.slide");
+  if(!slides.length) return alert("No slides");
+
+  const overlay=document.getElementById("progressOverlay");
+  overlay.style.display="flex";
+
+  const SLIDE_WIDTH=1120, SLIDE_HEIGHT=630;
+  const pdf=new jsPDF({orientation:"landscape",unit:"px",format:[SLIDE_WIDTH,SLIDE_HEIGHT]});
+
+  for(let i=0;i<slides.length;i++){
+    if(i>0) pdf.addPage([SLIDE_WIDTH,SLIDE_HEIGHT],"landscape");
+
+    const canvas=await html2canvas(slides[i],{scale:2,useCORS:true,backgroundColor:"#ffffff"});
+    const img=canvas.toDataURL("image/jpeg",0.9);
+
+    pdf.addImage(img,"JPEG",0,0,SLIDE_WIDTH,SLIDE_HEIGHT,undefined,"FAST");
+
+    document.getElementById("percent").innerText=Math.round(((i+1)/slides.length)*100)+"%";
+    document.getElementById("count").innerText=(i+1)+" / "+slides.length+" slides";
+  }
+
+  overlay.style.display="none";
+  pdf.save("Slides.pdf");
+}
+</script>
+
+</body>
+</html>

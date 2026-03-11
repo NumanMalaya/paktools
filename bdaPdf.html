@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BDA PDF - PakTools</title>
+
+<link rel="icon" href="data:,">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="res/index.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+/* ---------- Scrollbar Styling ---------- */
+
+/* Chrome, Edge, Safari */
+.form-container::-webkit-scrollbar,
+.preview-container::-webkit-scrollbar {
+  width: 1px;       /* thin scrollbar */
+}
+
+.form-container::-webkit-scrollbar-thumb,
+.preview-container::-webkit-scrollbar-thumb {
+  background-color: #000;  /* black color */
+  border-radius: 3px;      /* rounded edges */
+}
+
+.form-container::-webkit-scrollbar-track,
+.preview-container::-webkit-scrollbar-track {
+  background: #f0f0f0;     /* light background */
+}
+
+/* Firefox */
+.form-container,
+.preview-container {
+  scrollbar-width: thin;        /* thin scrollbar */
+  scrollbar-color: #000 #f0f0f0; /* thumb and track */
+}
+
+body{
+text-align:center;
+}
+
+/* ---------- Layout ---------- */
+
+.main-content{
+display:grid;
+grid-template-columns:420px 1fr;
+gap:20px;
+padding:15px 0px;
+max-width:1400px;
+margin:0 auto;
+align-items:start;
+}
+
+.form-container {
+  position: sticky;
+  top: 10px;
+  max-height: 80vh;   /* limit height */
+  overflow-y: auto;   /* enable vertical scroll */
+  padding-right: 10px; /* optional: to prevent scrollbar overlap */
+}
+.preview-container{
+max-height:80vh;
+overflow-y:auto;
+padding-right:10px;
+}
+
+/* ---------- Category Box ---------- */
+
+.category-box{
+width:100%;
+margin:12px 0;
+border-radius:8px;
+padding:15px;
+position:relative;
+border:2px solid #ccc;
+}
+
+.category-box input{
+padding:8px;
+width:70%;
+}
+
+.drop-zone{
+margin-top:12px;
+padding:20px;
+border:2px dashed #aaa;
+border-radius:8px;
+cursor:pointer;
+position:relative;
+}
+
+.drop-zone.dragover{
+border-color:#004080;
+}
+
+.drop-zone input{
+position:absolute;
+inset:0;
+opacity:0;
+}
+
+.file-count{
+margin-top:6px;
+font-size:13px;
+color:#007bff;
+font-weight:bold;
+}
+
+.delete-category{
+position:absolute;
+top:8px;
+right:8px;
+padding: 5px 10px;
+background:none;
+border:none;
+font-size:20px;
+cursor:pointer;
+border-radius:8px;
+}
+
+/* ---------- Slide ---------- */
+
+.slide{
+width:925px;
+height:525px;
+background:white;
+color: #000;
+margin:30px auto;
+position:relative;
+box-shadow:0 4px 10px rgba(0,0,0,.2);
+padding:20px 30px;
+box-sizing:border-box;
+}
+
+/* ---------- Images ---------- */
+
+.slide-images{
+margin-top:10px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+height:300px;
+}
+
+.column img{
+width:100%;
+height:300px;
+object-fit:fill;
+}
+
+.column-empty{
+height:299px;
+}
+/* ---------- Logos ---------- */
+
+.logo-left,
+.logo-right{
+position:absolute;
+top:20px;
+width:80px;
+}
+
+.logo-center{
+position:absolute;
+top:20px;
+width:130px;
+left:50%;
+transform:translateX(-50%);
+}
+
+.logo-left{left:20px;}
+.logo-right{right:20px;}
+
+/* ---------- Headings ---------- */
+
+.slide-headings{
+margin-top:120px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+font-size:30px;
+font-weight:800;
+}
+
+/* ---------- Loader ---------- */
+
+#progressOverlay{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.85);
+z-index:9999;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+}
+
+.ring{
+position:absolute;
+inset:0;
+border:8px solid transparent;
+border-radius:50%;
+animation:spin linear infinite;
+}
+
+.r1{border-top-color:#00f0ff;animation-duration:1.2s;}
+.r2{border-top-color:#ff00ff;animation-duration:1.8s;}
+.r3{border-top-color:#00ff88;animation-duration:2.4s;}
+
+@keyframes spin{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
+
+#progressText{
+margin-top:25px;
+color:#0ff;
+font-size:20px;
+font-weight:bold;
+text-shadow:0 0 10px #0ff;
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width:1000px){
+.main-content{
+grid-template-columns:1fr;
+max-width:95%;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>PakTools</h1>
+<div class="toggle-btn" onclick="toggleDark()">🌙 Dark</div>
+</header>
+
+<div class="main-content">
+
+<!-- LEFT SIDE -->
+
+<div class="form-container">
+
+<h1>Before / During / After</h1>
+
+<button onclick="addCategory()">+ Add Category</button>
+<button onclick="downloadPDF()">Download PDF</button>
+
+<div id="categoriesContainer"></div>
+
+</div>
+
+<!-- RIGHT SIDE -->
+
+<div class="preview-container" id="slidesContainer"></div>
+
+</div>
+
+<footer>
+© 2026 PakTools.site |
+<a href="index.html">Home</a> |
+<a href="contact.html">Contact</a> |
+<a href="about.html">About</a> |
+<a href="privacy-policy.html">Privacy Policy</a> |
+<a href="disclaimer.html">Disclaimer</a> |
+<span>Designed & Developed by
+<button onclick="window.open('https://numanmalaya.github.io/NumanMalaya/', '_blank')" class="inline-btn footer-btn">Numan Malaya</button>
+</span>
+</footer>
+
+<div id="progressOverlay">
+<div style="position:relative;width:120px;height:120px;">
+<div class="ring r1"></div>
+<div class="ring r2"></div>
+<div class="ring r3"></div>
+</div>
+<div id="progressText">
+<div id="percent">0%</div>
+<div id="count">0 / 0 slides</div>
+</div>
+</div>
+
+<script src="res/index.js"></script>
+<script>
+
+let categories = [];
+let categoryId = 0;
+
+function addCategory() {
+
+const id = categoryId++;
+
+categories.push({
+id,
+name:"Category "+(categories.length+1),
+images:[]
+});
+
+const box = document.createElement("div");
+box.className="category-box";
+box.id="cat-"+id;
+
+box.innerHTML=`
+
+<button class="delete-category" onclick="deleteCategory(${id})">🗑</button>
+
+<h3>Category</h3>
+
+<input value="Category ${categories.length}"
+oninput="updateName(${id}, this.value)">
+
+<div class="drop-zone"
+ondragover="handleDragOver(event)"
+ondragleave="handleDragLeave(event)"
+ondrop="handleDrop(event, ${id})">
+
+Upload Images (Before Only)
+
+<input type="file" multiple accept="image/*"
+onchange="updateImages(${id}, this.files)">
+
+</div>
+
+<div class="file-count" id="count-${id}">No files</div>
+
+`;
+
+document.getElementById("categoriesContainer").prepend(box);
+
+}
+
+function deleteCategory(id){
+categories=categories.filter(c=>c.id!==id);
+document.getElementById("cat-"+id)?.remove();
+renderSlides();
+}
+
+function updateName(id,val){
+const c=categories.find(x=>x.id===id);
+if(c)c.name=val;
+renderSlides();
+}
+
+function updateImages(id,files){
+
+const c=categories.find(x=>x.id===id);
+
+c.images=Array.from(files).map(f=>URL.createObjectURL(f));
+
+document.getElementById("count-"+id).innerText=
+c.images.length+" image(s)";
+
+renderSlides();
+
+}
+
+function handleDragOver(e){
+e.preventDefault();
+e.currentTarget.classList.add("dragover");
+}
+
+function handleDragLeave(e){
+e.preventDefault();
+e.currentTarget.classList.remove("dragover");
+}
+
+function handleDrop(e,id){
+
+e.preventDefault();
+
+e.currentTarget.classList.remove("dragover");
+
+const files=e.dataTransfer.files;
+
+if(files.length){
+updateImages(id,files);
+}
+
+}
+
+/* ---------- Render Slides ---------- */
+
+function renderSlides(){
+
+const container=document.getElementById("slidesContainer");
+
+container.innerHTML="";
+
+categories.forEach(cat=>{
+
+if(!cat.images.length)return;
+
+const title=document.createElement("div");
+
+title.className="slide";
+
+title.innerHTML=`
+
+<img src="res/logos/left.png" class="logo-left">
+<img src="res/logos/center.png" class="logo-center">
+<img src="res/logos/right.png" class="logo-right">
+
+<div style="height:100%;display:flex;align-items:center;justify-content:center;font-size:60px;font-weight:900;">
+${cat.name}
+</div>
+
+`;
+
+container.appendChild(title);
+
+cat.images.forEach(img=>{
+
+const slide=document.createElement("div");
+
+slide.className="slide";
+
+slide.innerHTML=`
+
+<img src="res/logos/left.png" class="logo-left">
+<img src="res/logos/center.png" class="logo-center">
+<img src="res/logos/right.png" class="logo-right">
+
+<div class="slide-headings">
+<div>Before</div>
+<div>During</div>
+<div>After</div>
+</div>
+
+<div class="slide-images">
+
+<div class="column"><img src="${img}"></div>
+
+<div class="column-empty" style="border:1px dashed grey;"></div>
+
+<div class="column-empty" style="border:1px dashed grey;"></div>
+
+</div>
+
+`;
+
+container.appendChild(slide);
+
+});
+
+});
+
+}
+
+/* ---------- PDF Export ---------- */
+
+async function downloadPDF(){
+
+const { jsPDF } = window.jspdf;
+
+const slides=document.querySelectorAll(".slide");
+
+if(!slides.length)return alert("No slides");
+
+const overlay=document.getElementById("progressOverlay");
+
+overlay.style.display="flex";
+
+const SLIDE_WIDTH=1120;
+const SLIDE_HEIGHT=630;
+
+const pdf=new jsPDF({
+orientation:"landscape",
+unit:"px",
+format:[SLIDE_WIDTH,SLIDE_HEIGHT]
+});
+
+for(let i=0;i<slides.length;i++){
+
+if(i>0)pdf.addPage([SLIDE_WIDTH,SLIDE_HEIGHT],"landscape");
+
+const canvas=await html2canvas(slides[i],{
+scale:2,
+useCORS:true,
+backgroundColor:"#ffffff"
+});
+
+const img=canvas.toDataURL("image/jpeg",0.8);
+
+pdf.addImage(img,"JPEG",0,0,SLIDE_WIDTH,SLIDE_HEIGHT,undefined,"FAST");
+
+document.getElementById("percent").innerText=
+Math.round(((i+1)/slides.length)*100)+"%";
+
+document.getElementById("count").innerText=
+(i+1)+" / "+slides.length+" slides";
+
+}
+
+overlay.style.display="none";
+
+pdf.save("Before-During-After.pdf");
+
+}
+
+</script>
+
+</body>
+</html>
