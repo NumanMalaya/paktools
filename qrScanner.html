@@ -3,7 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Code Scanner - PakTools</title>
+
+<!-- SEO Meta Tags -->
+<title>QR Code Scanner Online - ToolNish</title>
+<meta name="description" content="Scan QR codes online quickly and easily with ToolNish QR Code Scanner. Works with camera to scan any QR code instantly.">
+<meta name="keywords" content="QR Code Scanner, Online QR Scanner, QR Code Reader, ToolNish">
+<link rel="canonical" href="https://toolnish.com/qrScanner.html">
+
+<!-- Open Graph & Twitter Cards -->
+<meta property="og:title" content="QR Code Scanner Online - ToolNish">
+<meta property="og:description" content="Scan QR codes using your camera instantly with ToolNish QR Code Scanner. Free and online.">
+<meta property="og:url" content="https://toolnish.com/qrScanner.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://toolnish.com/res/img/qrScanner.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="QR Code Scanner Online - ToolNish">
+<meta name="twitter:description" content="Scan QR codes instantly using ToolNish QR Code Scanner online. Works on any device.">
+<meta name="twitter:image" content="https://toolnish.com/res/img/qrScanner.png">
 
 <!-- Header/Footer -->
 <link rel="stylesheet" href="res/header-footer.css">
@@ -15,91 +32,80 @@
 <!-- Tool-specific CSS -->
 <style>
 :root{
-  --bg:#f4f6fb;
-  --card:#fff;
-  --text:#222;
-  --primary:#4e73df;
-  --accent:#1cc88a;
+  --bg:#f4f6fb; --card:#fff; --text:#222; --primary:#4e73df; --accent:#1cc88a;
 }
 body.dark{
-  --bg:#121212;
-  --card:#1e1e1e;
-  --text:#f5f5f5;
-  --primary:#6c8cff;
-  --accent:#20c997;
+  --bg:#121212; --card:#1e1e1e; --text:#f5f5f5; --primary:#6c8cff; --accent:#20c997;
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
 body{
-  display:flex;
-  flex-direction:column;
-  min-height:100vh;
-  background:var(--bg);
-  color:var(--text);
-  transition:.3s;
+  display:flex; flex-direction:column; min-height:100vh; background:var(--bg); color:var(--text); transition:.3s;
 }
 .main-content{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  padding:20px;
-  width:100%;
-  max-width:600px;
-  margin:auto;
-  gap:10px;
-  text-align:center;
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:20px; width:100%; max-width:600px; margin:auto; gap:10px; text-align:center;
 }
-#qr-reader{
-  width:100%;
-  max-width:300px;
-}
+#qr-reader{ width:100%; max-width:300px; border:2px solid var(--primary); border-radius:10px; box-shadow:0 3px 8px rgba(0,0,0,0.08); }
+
 .main-content input{
-  width:100%;
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #ddd;
-  margin-top:10px;
-  font-size:14px;
+  width:100%; padding:10px; border-radius:8px; border:1px solid #ddd; margin-top:10px; font-size:14px;
 }
 .main-content button{
-  padding:10px 15px;
-  border:none;
-  border-radius:8px;
-  background:var(--primary);
-  color:white;
-  cursor:pointer;
-  transition:.3s;
-  font-size:14px;
+  padding:10px 15px; border:none; border-radius:8px; background:var(--primary); color:white; cursor:pointer; transition:.3s; font-size:14px;
 }
 .main-content button:hover{opacity:.9;}
-.result{
-  margin-top:15px;
-  font-weight:600;
-  color:var(--accent);
-}
+.result{margin-top:15px;font-weight:600;color:var(--accent);}
 button + button{margin-left:5px;}
-@media(max-width:500px){
-  .main-content button{width:100%;}
-}
+
+
+@media(max-width:600px){.main-content h1{ font-size:1.8rem; } .main-content h2{ font-size:1.3rem; } .main-content p, .main-content ul{ padding:10px; } .main-content button{ width:100%; margin-left:0 !important; }}
 </style>
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "QR Code Scanner",
+  "url": "https://toolnish.com/qrScanner.html",
+  "applicationCategory": "UtilityApplication",
+  "description": "Scan QR codes online quickly using ToolNish QR Code Scanner. Works with your device camera instantly.",
+  "operatingSystem": "Web",
+  "screenshot": "https://toolnish.com/res/img/qrScanner.png"
+}
+</script>
+
 </head>
 <body>
 
 <div class="main-content">
-  <h2>QR Code Scanner</h2>
+  <h1>QR Code Scanner</h1>
+  <p>Scan any QR code instantly using your camera with ToolNish QR Code Scanner. Copy, open links, or search scanned results online.</p>
+
   <div id="qr-reader"></div>
   <input type="text" id="qrResult" placeholder="Scanned result will appear here..." readonly>
-  <div style="display:flex; gap:5px; margin-top:5px;">
+  <div style="display:flex; gap:5px; margin-top:5px; flex-wrap: wrap;">
     <button onclick="copyQR()">Copy</button>
     <button onclick="openQR()">Open Link</button>
     <button onclick="searchQR()">Web Search</button>
   </div>
+
+  <h2>How to Use QR Code Scanner</h2>
+  <p>Allow camera access, hold your device towards a QR code, and it will scan automatically. The result appears in the input box above.</p>
+
+  <h2>Benefits of QR Code Scanner</h2>
+  <ul>
+    <li>Scan QR codes quickly and easily</li>
+    <li>Supports URLs, text, and more</li>
+    <li>Copy, open, or search results instantly</li>
+    <li>Free and online, works on any device</li>
+  </ul>
+
+  <h2>Related Tools</h2>
+  <p>Try our <a href="qrGenerator.html">QR Code Generator</a> or <a href="unitConverter.html">Unit Converter</a> for more online tools.</p>
 </div>
 
 <script>
 let html5QrCode;
-
 function startQRScanner() {
     const qrResult = document.getElementById("qrResult");
     html5QrCode = new Html5Qrcode("qr-reader");

@@ -55,3 +55,14 @@ footer{
 footer a{color:var(--primary); text-decoration:none;}
 footer a:hover{text-decoration:underline;}
 footer button.inline-btn{background:none;border:none;color:var(--primary);cursor:pointer;font-weight:600;}
+
+
+/* SEO Text Styling */
+.main-content h1{ font-size:2.2rem; color:var(--primary); margin-bottom:15px; text-align:center; }
+.main-content h2{ font-size:1.5rem; color:var(--accent); margin-top:30px; margin-bottom:10px; border-left:4px solid var(--primary); padding-left:10px; }
+.main-content p{ font-size:1rem; line-height:1.6; margin-bottom:15px; text-align:justify; background:var(--card); padding:12px 15px; border-radius:10px; box-shadow:0 3px 8px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.3s; }
+.main-content p:hover{ transform:translateY(-2px); box-shadow:0 6px 15px rgba(0,0,0,0.08); }
+.main-content ul{ list-style: inside disc; margin-left:0; padding-left:15px; margin-bottom:20px; background:var(--card); padding:12px 15px; border-radius:10px; box-shadow:0 3px 8px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.3s; }
+.main-content ul li{ padding:5px 0; font-weight:500; }
+.main-content a{ color:var(--primary); text-decoration:none; font-weight:600; transition: color 0.3s; }
+.main-content a:hover{ color:var(--accent); text-decoration:none; }

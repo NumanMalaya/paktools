@@ -1,29 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-<url>
-  <loc>https://paktools.site/</loc>
-  <lastmod>2026-03-02</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>1.0</priority>
-</url>
+  <!-- Home Page -->
+  <url>
+    <loc>https://toolnish.com/</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
 
-<url>
-  <loc>https://paktools.site/about.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.8</priority>
-</url>
+  <!-- Main Pages -->
+  <url>
+    <loc>https://toolnish.com/about.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://toolnish.com/contact.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://toolnish.com/privacy-policy.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://toolnish.com/disclaimer.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
 
-<url>
-  <loc>https://paktools.site/privacy-policy.html</loc>
-  <changefreq>yearly</changefreq>
-  <priority>0.6</priority>
-</url>
-
-<url>
-  <loc>https://paktools.site/contact.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.7</priority>
-</url>
+  <!-- Tools Pages -->
+  <url>
+    <loc>https://toolnish.com/bmiCalculator.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://toolnish.com/cgpaCalculator.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://toolnish.com/unitConverter.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://toolnish.com/loanCalculator.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://toolnish.com/qrGenerator.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://toolnish.com/qrScanner.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://toolnish.com/gpsStamp.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://toolnish.com/bdaPdf.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://toolnish.com/slwmcPdf.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://toolnish.com/pdfMerge.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://toolnish.com/a.html</loc>
+    <lastmod>2026-03-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
 
 </urlset>

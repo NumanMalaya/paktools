@@ -3,7 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Code Generator - PakTools</title>
+
+<!-- SEO Meta Tags -->
+<title>QR Code Generator Online - ToolNish</title>
+<meta name="description" content="Generate QR codes online for text or URLs instantly with ToolNish QR Code Generator. Free, fast, and easy to use.">
+<meta name="keywords" content="QR Code Generator, Online QR Code, QR Code Creator, ToolNish">
+<link rel="canonical" href="https://toolnish.com/qrGenerator.html">
+
+<!-- Open Graph & Twitter Cards -->
+<meta property="og:title" content="QR Code Generator Online - ToolNish">
+<meta property="og:description" content="Use ToolNish QR Code Generator to create QR codes for URLs or text instantly. Free and easy to use.">
+<meta property="og:url" content="https://toolnish.com/qrGenerator.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://toolnish.com/res/img/qrGenerator.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="QR Code Generator Online - ToolNish">
+<meta name="twitter:description" content="Generate QR codes for text or URLs instantly using ToolNish QR Code Generator. Free and accurate.">
+<meta name="twitter:image" content="https://toolnish.com/res/img/qrGenerator.png">
 
 <!-- Header/Footer -->
 <link rel="stylesheet" href="res/header-footer.css">
@@ -12,80 +29,71 @@
 <!-- Tool-specific CSS -->
 <style>
 :root{
-  --bg:#f4f6fb;
-  --card:#fff;
-  --text:#222;
-  --primary:#4e73df;
-  --accent:#1cc88a;
+  --bg:#f4f6fb; --card:#fff; --text:#222; --primary:#4e73df; --accent:#1cc88a;
 }
 body.dark{
-  --bg:#121212;
-  --card:#1e1e1e;
-  --text:#f5f5f5;
-  --primary:#6c8cff;
-  --accent:#20c997;
+  --bg:#121212; --card:#1e1e1e; --text:#f5f5f5; --primary:#6c8cff; --accent:#20c997;
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
 body{
-  display:flex;
-  flex-direction:column;
-  min-height:100vh;
-  background:var(--bg);
-  color:var(--text);
-  transition:.3s;
+  display:flex; flex-direction:column; min-height:100vh; background:var(--bg); color:var(--text); transition:.3s;
 }
 .main-content{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  padding:20px;
-  width:100%;
-  max-width:600px;
-  margin:50px auto;
-  gap:10px;
-  text-align:center;
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:20px; width:100%; max-width:600px; margin:50px auto; gap:10px; text-align:center;
 }
 .main-content input{
-  width:100%;
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #ddd;
-  margin-top:20px;
-  font-size:14px;
+  width:100%; padding:10px; border-radius:8px; border:1px solid #ddd; margin-top:20px; font-size:14px;
 }
 .main-content button{
-  padding:10px 15px;
-  border:none;
-  border-radius:8px;
-  background:var(--primary);
-  color:white;
-  cursor:pointer;
-  transition:.3s;
-  font-size:14px;
-  margin-top:20px;
+  padding:10px 15px; border:none; border-radius:8px; background:var(--primary); color:white; cursor:pointer; transition:.3s; font-size:14px; margin-top:20px;
 }
 .main-content button:hover{opacity:.9;}
 #qrImage{
-  max-width:200px;
-  margin:20px 0;
+  max-width:200px; margin:20px 0; border:2px solid var(--primary); border-radius:10px; padding:5px; box-shadow:0 3px 8px rgba(0,0,0,0.08);
 }
-@media(max-width:500px){
-  .main-content input, .main-content button{
-    width:100%;
-  }
-}
+
+
+@media(max-width:600px){.main-content h1{ font-size:1.8rem; } .main-content h2{ font-size:1.3rem; } .main-content p, .main-content ul{ padding:10px; }}
 </style>
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "QR Code Generator",
+  "url": "https://toolnish.com/qrGenerator.html",
+  "applicationCategory": "UtilityApplication",
+  "description": "Generate QR codes online for text or URLs instantly with ToolNish QR Code Generator.",
+  "operatingSystem": "Web",
+  "screenshot": "https://toolnish.com/res/img/qrGenerator.png"
+}
+</script>
 
 </head>
 <body>
 
 <div class="main-content">
-  <h2>QR Code Generator</h2>
+  <h1>QR Code Generator</h1>
+  <p>Create QR codes online for any text, URL, or information instantly using ToolNish QR Code Generator.</p>
+
   <input type="text" id="qrText" placeholder="Enter text or URL">
   <img id="qrImage" src="" alt="QR Code will appear here" style="display:none;">
   <button onclick="generateQRCode()">Generate QR Code</button>
+
+  <h2>How to Use QR Code Generator</h2>
+  <p>Enter the text or URL you want to convert into a QR code and click "Generate QR Code". The QR code image will appear instantly below.</p>
+
+  <h2>Benefits of QR Code Generator</h2>
+  <ul>
+    <li>Generate QR codes quickly and easily</li>
+    <li>Supports URLs, text, and other information</li>
+    <li>Free and online</li>
+    <li>Works on any device</li>
+  </ul>
+
+  <h2>Related Tools</h2>
+  <p>Try our <a href="unitConverter.html">Unit Converter</a> or <a href="bmiCalculator.html">BMI Calculator</a> for more online tools.</p>
 </div>
 
 <script>

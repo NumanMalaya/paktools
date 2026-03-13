@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://paktools.site/sitemap.xml
+Sitemap: https://toolnish.com/sitemap.xml
